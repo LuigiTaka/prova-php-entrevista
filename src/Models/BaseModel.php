@@ -40,4 +40,26 @@ abstract class BaseModel
         $conn->commit();
         return $lastInsertId;
     }
+
+
+    /**
+     * @throws Throwable
+     */
+    public function delete(mixed $id): bool
+    {
+        $conn = $this->connection->getConnection();
+        $query = <<<QUERY
+DELETE FROM $this->table WHERE id = ?
+QUERY;
+        $conn->beginTransaction();
+        try {
+            $stmt = $conn->prepare($query);
+            $stmt->execute( [ $id ] );
+        }catch (\Throwable $e){
+            $conn->rollBack();
+            throw $e;
+        }
+        $conn->commit();
+        return true;
+    }
 }
