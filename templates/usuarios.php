@@ -1,7 +1,5 @@
 <?php
 
-require_once __DIR__ . "/../autoload.php";
-
 $template = new \TestePratico\Template("base");
 ob_start();
 ?>
