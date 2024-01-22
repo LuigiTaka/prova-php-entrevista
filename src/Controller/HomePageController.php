@@ -7,6 +7,9 @@ use TestePratico\Template;
 class HomePageController
 {
 
+    /**
+     * @throws \Exception
+     */
     public static function get(\TestePratico\Request $param): \TestePratico\Response
     {
 
