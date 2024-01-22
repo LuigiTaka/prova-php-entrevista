@@ -35,10 +35,13 @@ $this->css("/css/base.css");
 <body>
 <header>
 
-    <ul>
-        <li><a href="/">Início</a></li>
-        <li><a href="/usuarios">Lista de usuários</a></li>
-    </ul>
+    <nav>
+        <ul>
+            <li><a href="/">Início</a></li>
+            <li><a href="/usuarios">Lista de usuários</a></li>
+        </ul>
+    </nav>
+
 </header>
 
 <main>

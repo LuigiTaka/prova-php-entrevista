@@ -1,8 +1,23 @@
+* {
+    box-sizing: border-box;
+}
+
+/* Reset de estilos padrão do navegador */
+body, h1, h2, h3, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    background-color: #f8f8f8;
+    color: #333;
+}
+
 /* Estilos para o cabeçalho e menu */
 header {
-    background-color: rgba(0, 123, 255, 0.77);
     color: #fff;
-    padding: 10px 0;
     text-align: center;
 }
 
@@ -35,19 +50,6 @@ main {
     box-sizing: border-box;
 }
 
-
-/* Reset de estilos padrão do navegador */
-body, h1, h2, h3, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    font-family: 'Arial', sans-serif;
-    line-height: 1.6;
-    background-color: #f8f8f8;
-    color: #333;
-}
 
 .container {
     width: 80%;
