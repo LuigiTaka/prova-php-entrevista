@@ -118,6 +118,7 @@ th {
 tbody tr:hover {
     background-color: #f5f5f5;
 }
+
 /* Modal */
 .modal {
     display: none;
@@ -152,4 +153,43 @@ tbody tr:hover {
     display: inline-block;
     margin-right: 5px;
     border: 1px solid #ddd;
+}
+
+
+/* Estilos específicos para o formulário */
+form {
+    max-width: 400px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+input[type="text"],
+input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 16px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    box-sizing: border-box;
+}
+
+input[type="submit"] {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
 }
