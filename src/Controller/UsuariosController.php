@@ -43,6 +43,7 @@ class UsuariosController
         $nome = $request->post("name");
         $email = $request->post("email");
         $id = $request->post("id", false);
+        $cores = $request->post("cores", []);
 
         if (!empty($id) && ctype_digit($id)) {
             $request->setGet(['id' => $id]);
@@ -65,6 +66,9 @@ class UsuariosController
                 "email" => $email
             ]);
 
+            //array de id de cores.
+            self::insertColors($id, $cores, $connection);
+
             $_SESSION['message'] = "Usuário criado!";
             $response = Response::response()->setStatus(200)->setHeader("Location", '/usuarios');
         } catch (\Throwable|RequestException $e) {
@@ -74,6 +78,34 @@ class UsuariosController
         }
 
         return $response;
+    }
+
+    /**
+     * @param string $id
+     * @param array $cores
+     * @param Connection $connection
+     * @return bool
+     * @throws RequestException
+     */
+    static private function insertColors(string $id, array $cores, Connection $connection): bool
+    {
+        $colorsPlaceholder = implode(",", array_fill(0, count($cores), "?"));
+        $stmt = $connection->getConnection()->prepare("SELECT id FROM colors WHERE id IN($colorsPlaceholder)");
+        $stmt->execute($cores);
+        $validCores = $stmt->fetchAll();
+
+        if (count($validCores) !== count($cores)) {
+            throw new RequestException("Cores enviadas inválidas.", 422);
+        }
+
+
+        foreach ($cores as $colorId) {
+            $stmt = $connection->getConnection()->prepare("INSERT INTO user_colors(user_id,color_id) VALUES(?,?);");
+            $stmt->execute([$id, $colorId]);
+            $stmt->fetch();
+        }
+
+        return true;
     }
 
     public static function form(Request $request, Connection $connection): Response
