@@ -12,7 +12,7 @@ class Connection
 
     public function __construct()
     {
-        $this->databaseFile = realpath(__DIR__ . "/database/db.sqlite");
+        $this->databaseFile = realpath(__DIR__ . "/../database/db.sqlite");
         $this->connect();
     }
 
