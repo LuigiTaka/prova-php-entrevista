@@ -8,6 +8,7 @@ class Template
 
     protected array $vars = [];
     protected string $templateFile;
+    protected array $scripts = [ ];
 
     public function __construct($templateFile)
     {
@@ -19,7 +20,7 @@ class Template
         $this->vars[$name] = $value;
     }
 
-    private function getTemplateFilepath()
+    private function getTemplateFilepath(): string
     {
         return self::TEMPLATE_PATH . DIRECTORY_SEPARATOR . $this->templateFile . ".php";
     }
@@ -44,6 +45,16 @@ class Template
      */
     public function __toString(): string
     {
-        echo $this->render();
+        return $this->render();
+    }
+
+    public function js(string $string): void
+    {
+        $this->scripts[] = $string;
+    }
+
+    public function getJs()
+    {
+        return $this->scripts;
     }
 }
