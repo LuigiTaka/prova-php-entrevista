@@ -120,17 +120,46 @@ HTML;
      */
     public static function delete(Request $request, Connection $connection): Response
     {
-        $id = $request->get("id",false);
+        $id = $request->get("id", false);
 
-        if (empty($id)){
-            throw new \HttpException( "Nenhum usuário informado!", 422 );
+        if (empty($id)) {
+            throw new RequestException("Nenhum usuário informado!", 422);
         }
-        $model = new UsuariosModel( $connection );
-        $model->delete( $id );
+        $model = new UsuariosModel($connection);
+        $model->delete($id);
 
         $_SESSION['message'] = "Usuário removido com sucesso.";
-        return Response::response()->setStatus(200)->setHeader("Location","/usuarios");
+        return Response::response()->setStatus(200)->setHeader("Location", "/usuarios");
 
+    }
+
+    /**
+     * @throws \HttpException
+     * @throws \Throwable
+     */
+    public static function put(Request $request, Connection $connection)
+    {
+
+        $id = $request->get("id", false);
+        $nome = $request->post("name", false);
+        $email = $request->post("email", false);
+
+        if (empty($id)) {
+            throw new RequestException("Nenhum usuário informado!", 422);
+        }
+
+
+        $updateData = ["name" => $nome, "email" => $email];
+        $updateData = array_filter($updateData);
+        if (empty($updateData)) {
+            throw new RequestException("Nenhum dado informado para atualizar o registro!", 422);
+        }
+
+        $model = new UsuariosModel($connection);
+        $model->update($id, $updateData);
+
+        $_SESSION['message'] = "Usuário atualizado com sucesso.";
+        return Response::response()->setStatus(200)->setHeader("Location", "/usuarios");
     }
 
 }

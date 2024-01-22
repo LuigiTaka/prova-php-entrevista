@@ -39,6 +39,14 @@ $router->delete("/usuarios/{id}", function ($id) use ($connection) {
     $response->send();
 });
 
+$router->put("/usuarios/{id}", function ($id,$dados)  use ($connection) {
+    $request = new \TestePratico\Request();
+    $request->setGet(['id' => $id]);
+    $request->setPost($dados);
+    $response = UsuariosController::put($request,$connection);
+    $response->send();
+});
+
 $router->get("/usuarios/novo",function () use ($connection){
     $response = UsuariosController::form(new \TestePratico\Request(), $connection);
     $response->send();
