@@ -195,3 +195,16 @@ input[type="submit"] {
 input[type="submit"]:hover {
     background-color: #0056b3;
 }
+
+.d-inline-block {
+    display: inline-block;
+}
+
+.esferico {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+    border: 1px solid #ddd;
+}
