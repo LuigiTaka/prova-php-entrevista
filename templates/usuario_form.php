@@ -17,7 +17,8 @@ ob_start();
         <label for="cor">Cores</label>
         <?php foreach ($colors as $idColor => $color): ?>
             <label class="d-inline-block" for="<?= $color ?>">
-                <input type="checkbox" name="cores[]" value="<?= $idColor ?>" id="<?= $color ?>">
+                <input type="checkbox" name="cores[]" value="<?= $idColor ?>"
+                       id="<?= $color ?>" <?= isset($userColors[$idColor]) ? "checked" : "" ?> >
                 <?= $color ?>
                 <span class="esferico" style="background-color: <?= strtolower($color) ?>"></span>
             </label>

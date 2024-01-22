@@ -84,10 +84,10 @@ class UsuariosController
      * @param string $id
      * @param array $cores
      * @param Connection $connection
-     * @return bool
+     * @return void
      * @throws RequestException
      */
-    static private function insertColors(string $id, array $cores, Connection $connection): bool
+    static private function insertColors(string $id, array $cores, Connection $connection): void
     {
         $colorsPlaceholder = implode(",", array_fill(0, count($cores), "?"));
         $stmt = $connection->getConnection()->prepare("SELECT id FROM colors WHERE id IN($colorsPlaceholder)");
@@ -105,22 +105,29 @@ class UsuariosController
             $stmt->fetch();
         }
 
-        return true;
     }
 
     public static function form(Request $request, Connection $connection): Response
     {
         $model = new UsuariosModel($connection);
+        $coresModel = new CoresModel($connection);
+        $cores = $coresModel->all();
         $page = new Template("usuario_form");
         if (!empty($request->get("id")) && ctype_digit($request->get("id"))) {
             $usuario = $model->id($request->get("id"));
+
+            $coresById = [];
+
+            foreach ($coresModel->getCoresByUserId($usuario['id']) as $index => $row) {
+                $coresById[$row['id']] = $row['name'];
+            }
+
             $page->set('name', $usuario['name']);
             $page->set('email', $usuario['email']);
             $page->set("id", $usuario['id']);
+            $page->set("userColors", $coresById);
         }
 
-        $coresModel = new CoresModel($connection);
-        $cores = $coresModel->all();
         $coresById = [];
         foreach ($cores as $index => $data) {
             $coresById[$data['id']] = $data['name'];
@@ -171,6 +178,12 @@ class UsuariosController
         if (empty($updateData)) {
             throw new RequestException("Nenhum dado informado para atualizar o registro!", 422);
         }
+
+        //Deleta todas as cores do usuário e insere as novas vindas da requisição.
+        $stmt = $connection->getConnection()->query("DELETE FROM user_colors WHERE user_id = ?");
+        $stmt->execute([$id]);
+
+        self::insertColors($id, $colors, $connection);
 
         $model = new UsuariosModel($connection);
         $model->update($id, $updateData);
