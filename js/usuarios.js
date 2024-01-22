@@ -27,6 +27,20 @@ function removeRecordEvent(e) {
         });
 }
 
+function openModal(userId) {
+    document.getElementById('modal').style.display = 'flex';
+}
+
+function closeModal() {
+    document.getElementById('modal').style.display = 'none';
+}
+
+function adicionarCor() {
+    // Lógica para adicionar a nova cor ao usuário
+    // Pode ser feita via AJAX ou manipulando diretamente a DOM
+    closeModal();
+}
+
 window.addEventListener('DOMContentLoaded', function () {
     let $rmList = document.getElementsByClassName("rm");
     Array.from($rmList).forEach((el) => {
