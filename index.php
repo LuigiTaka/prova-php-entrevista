@@ -51,11 +51,9 @@ $router->get("/usuarios/novo",function () use ($connection){
     $response = UsuariosController::form(new \TestePratico\Request(), $connection);
     $response->send();
 });
+
 $router->get('/usuarios/{id}', function ($id) {
     echo "Detalhes do usuário com ID: $id (GET)";
-});
-$router->put("/usuarios/{id}", function ($id, $dados) {
-    $response = new \TestePratico\Response("", 404);
 });
 
 
