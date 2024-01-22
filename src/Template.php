@@ -8,7 +8,8 @@ class Template
 
     protected array $vars = [];
     protected string $templateFile;
-    protected array $scripts = [ ];
+    protected array $scripts = [];
+    protected array $styles = [];
 
     public function __construct($templateFile)
     {
@@ -48,9 +49,19 @@ class Template
         return $this->render();
     }
 
-    public function js(string $string): void
+    public function js(string $path): void
     {
-        $this->scripts[] = $string;
+        $this->scripts[] = $path;
+    }
+
+    public function css(string $path): void
+    {
+        $this->styles[] = $path;
+    }
+
+    public function getStyles(): array
+    {
+        return $this->styles;
     }
 
     public function getJs()
