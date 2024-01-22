@@ -7,8 +7,8 @@ use PDO;
 class Connection
 {
 
-    private $databaseFile;
-    private $connection;
+    private string|false $databaseFile;
+    private PDO $connection;
 
     public function __construct()
     {
@@ -16,17 +16,17 @@ class Connection
         $this->connect();
     }
 
-    private function connect()
+    private function connect(): PDO
     {
         return $this->connection = new \PDO("sqlite:{$this->databaseFile}");
     }
 
-    public function getConnection()
+    public function getConnection(): PDO
     {
         return $this->connection ?: $this->connection = $this->connect();
     }
 
-    public function query($query)
+    public function query($query): bool|\PDOStatement
     {
         $result = $this->getConnection()->query($query);
 
