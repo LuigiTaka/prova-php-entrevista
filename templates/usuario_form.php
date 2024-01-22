@@ -3,6 +3,8 @@
 $template = new \TestePratico\Template("base");
 ob_start();
 ?>
+
+
     <h1>Cadastro de Usuário</h1>
     <form action="/usuarios" method="POST" enctype="application/x-www-form-urlencoded">
 
@@ -12,19 +14,21 @@ ob_start();
         <label for="email">E-mail.</label>
         <input type="email" name="email" id="email" value="<?= $email ?? '' ?>">
 
-        <label for="cor">Cor</label>
-        <input type="text" name="cor" id="cor" list="colors">
-        <datalist id="colors">
-            <?php foreach ($colors as $id => $color): ?>
-                <option> <?= $color ?> </option>
-            <?php endforeach; ?>
-        </datalist>
+        <label for="cor">Cores</label>
+        <?php foreach ($colors as $idColor => $color): ?>
+            <label class="d-inline-block" for="<?= $color ?>">
+                <input type="checkbox" name="cores[]" value="<?= $idColor ?>" id="<?= $color ?>">
+                <?= $color ?>
+                <span class="esferico" style="background-color: <?= strtolower($color) ?>"></span>
+            </label>
+        <?php endforeach; ?>
 
-        <input type="text" name="id" hidden value="<?= $id ?? false ?>">
+        <label>
+            <input type="text" name="id" hidden value="<?= $id ?? false ?>">
+        </label>
 
         <input type="submit" value="Salvar">
     </form>
-
 <?php
 
 
