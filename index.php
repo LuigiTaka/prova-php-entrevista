@@ -1,34 +1,40 @@
 <?php
 
-require 'connection.php';
+use TestePratico\Connection;
+use TestePratico\Controller\HomePageController;
+use TestePratico\Controller\UsuariosController;
+use TestePratico\Router;
+
+require_once __DIR__ . "/autoload.php";
+
+// Exemplo de uso
+
+$router = new Router();
 
 $connection = new Connection();
 
-$users = $connection->query("SELECT * FROM users");
+$router->get('/', function () {
+    HomePageController::get(new \TestePratico\Request())->send();
 
-echo "<table border='1'>
+});
 
-    <tr>
-        <th>ID</th>    
-        <th>Nome</th>    
-        <th>Email</th>
-        <th>Ação</th>    
-    </tr>
-";
+$router->get('/usuarios', function () use ($connection) {
 
-foreach($users as $user) {
+    $response = UsuariosController::get(new \TestePratico\Request(), $connection);
+    $response->send();
+});
 
-    echo sprintf("<tr>
-                      <td>%s</td>
-                      <td>%s</td>
-                      <td>%s</td>
-                      <td>
-                           <a href='#'>Editar</a>
-                           <a href='#'>Excluir</a>
-                      </td>
-                   </tr>",
-        $user->id, $user->name, $user->email);
+$router->get('/usuarios/{id}', function ($id) {
+    echo "Detalhes do usuário com ID: $id (GET)";
+});
 
-}
+$router->post("/usuarios", function ($dados) {
+    $response = new \TestePratico\Response("", 404);
+    $response->send();
+});
 
-echo "</table>";
+$router->put("/usuarios/{id}", function ($id, $dados) {
+    $response = new \TestePratico\Response("", 404);
+});
+
+$router->executar();
