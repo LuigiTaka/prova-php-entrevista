@@ -49,4 +49,9 @@ class Request
     {
         return new Request();
     }
+
+    public function setPost($dados): void
+    {
+        $this->post = $dados;
+    }
 }
