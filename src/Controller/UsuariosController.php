@@ -159,6 +159,7 @@ class UsuariosController
         $id = $request->get("id", false);
         $nome = $request->post("name", false);
         $email = $request->post("email", false);
+        $colors = $request->post("cores", []);
 
         if (empty($id)) {
             throw new RequestException("Nenhum usuário informado!", 422);
