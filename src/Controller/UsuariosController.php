@@ -114,4 +114,23 @@ HTML;
 
     }
 
+    /**
+     * @throws \HttpException
+     * @throws \Throwable
+     */
+    public static function delete(Request $request, Connection $connection): Response
+    {
+        $id = $request->get("id",false);
+
+        if (empty($id)){
+            throw new \HttpException( "Nenhum usuário informado!", 422 );
+        }
+        $model = new UsuariosModel( $connection );
+        $model->delete( $id );
+
+        $_SESSION['message'] = "Usuário removido com sucesso.";
+        return Response::response()->setStatus(200)->setHeader("Location","/usuarios");
+
+    }
+
 }

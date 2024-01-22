@@ -32,6 +32,12 @@ $router->post("/usuarios", function ($dados) use($connection) {
     $response->send();
 });
 
+$router->delete("/usuarios/{id}", function ($id) use ($connection) {
+    $request = new \TestePratico\Request();
+    $request->setGet(['id' => $id]);
+    $response = UsuariosController::delete($request,$connection);
+    $response->send();
+});
 
 $router->get("/usuarios/novo",function () use ($connection){
     $response = UsuariosController::form(new \TestePratico\Request(), $connection);
