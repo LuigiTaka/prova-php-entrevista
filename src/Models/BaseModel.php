@@ -17,6 +17,14 @@ abstract class BaseModel
 
     }
 
+    public function all(): bool|array
+    {
+        $conn = $this->connection->getConnection();
+        $stmt = $conn->prepare("SELECT * FROM $this->table");
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
     /**
      * @throws Throwable
      */
