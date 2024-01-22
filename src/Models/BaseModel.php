@@ -54,12 +54,47 @@ QUERY;
         $conn->beginTransaction();
         try {
             $stmt = $conn->prepare($query);
-            $stmt->execute( [ $id ] );
-        }catch (\Throwable $e){
+            $stmt->execute([$id]);
+        } catch (\Throwable $e) {
             $conn->rollBack();
             throw $e;
         }
         $conn->commit();
         return true;
     }
+
+    public function update(mixed $id, array $updateData)
+    {
+        $conn = $this->connection->getConnection();
+        $cols = array_keys($updateData);
+        $setStatements = array_map(fn($col) => "$col = ?", $cols);
+        $setClause = implode(", ", $setStatements);
+
+        $conn->beginTransaction();
+
+        try {
+            $query = "UPDATE $this->table SET $setClause WHERE id = ?";
+            $stmt = $conn->prepare($query);
+            $params = array_merge(array_values($updateData), [$id]);
+            $stmt->execute($params);
+        } catch (\Throwable $e) {
+            $conn->rollBack();
+            throw $e;
+        }
+        $conn->commit();
+
+        return $this->id($id);
+    }
+
+    public function id(mixed $id)
+    {
+        $conn = $this->connection->getConnection();
+        $query = <<<QUERY
+SELECT * FROM $this->table WHERE id = ?
+QUERY;
+        $stmt = $conn->prepare($query);
+        $stmt->execute([$id]);
+        return $stmt->fetch();
+    }
+
 }
