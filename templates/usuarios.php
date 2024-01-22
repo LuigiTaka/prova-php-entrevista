@@ -40,7 +40,7 @@ ob_start();
 
                 </td>
                 <td>
-                    <a href='/usuario/<?= $user->id ?>'>Editar</a>
+                    <a href='/usuarios/<?= $user->id ?>'>Editar</a>
                     <a href="#" class="rm" data-id="<?= $user->id ?>">Excluir</a>
                 </td>
             </tr>
