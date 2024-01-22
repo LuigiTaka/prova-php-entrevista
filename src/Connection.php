@@ -1,6 +1,11 @@
 <?php
 
-class Connection {
+namespace TestePratico;
+
+use PDO;
+
+class Connection
+{
 
     private $databaseFile;
     private $connection;
@@ -13,7 +18,7 @@ class Connection {
 
     private function connect()
     {
-        return $this->connection = new PDO("sqlite:{$this->databaseFile}");
+        return $this->connection = new \PDO("sqlite:{$this->databaseFile}");
     }
 
     public function getConnection()
@@ -23,9 +28,9 @@ class Connection {
 
     public function query($query)
     {
-        $result      = $this->getConnection()->query($query);
+        $result = $this->getConnection()->query($query);
 
-        $result->setFetchMode(PDO::FETCH_INTO, new stdClass);
+        $result->setFetchMode(PDO::FETCH_INTO, new \stdClass);
 
         return $result;
     }
