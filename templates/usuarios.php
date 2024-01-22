@@ -33,8 +33,8 @@ ob_start();
             <td> <?= $user->name ?> </td>
             <td><?= $user->email ?> </td>
             <td>
-                <a href='#'>Editar</a>
-                <a href='#'>Excluir</a>
+                <a href='/usuario/<?= $user->id ?>'>Editar</a>
+                <a href="#" class="rm" data-id="<?= $user->id ?>">Excluir</a>
             </td>
         </tr>
     <?php endforeach; ?>
@@ -42,6 +42,9 @@ ob_start();
 </table>
 
 <?php
+
+$template->js("/js/usuarios.js");
+
 
 $template->set("conteudo",ob_get_clean());
 echo $template->render();
