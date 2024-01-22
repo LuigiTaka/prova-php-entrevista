@@ -25,40 +25,44 @@ $router->get('/usuarios', function () use ($connection) {
     $response->send();
 });
 
-$router->post("/usuarios", function ($dados) use($connection) {
-    $request  = new \TestePratico\Request();
-    $request->setPost( $dados );
-    $response = UsuariosController::post( $request,  $connection);
+
+$router->get('/usuarios/{id}', function ($id) use ($connection) {
+    $request = new \TestePratico\Request();
+    $request->setGet(['id' => $id]);
+    $response = UsuariosController::form($request, $connection);
+    $response->send();
+});
+
+$router->post("/usuarios", function ($dados) use ($connection) {
+    $request = new \TestePratico\Request();
+    $request->setPost($dados);
+    $response = UsuariosController::post($request, $connection);
     $response->send();
 });
 
 $router->delete("/usuarios/{id}", function ($id) use ($connection) {
     $request = new \TestePratico\Request();
     $request->setGet(['id' => $id]);
-    $response = UsuariosController::delete($request,$connection);
+    $response = UsuariosController::delete($request, $connection);
     $response->send();
 });
 
-$router->put("/usuarios/{id}", function ($id,$dados)  use ($connection) {
+$router->put("/usuarios/{id}", function ($id, $dados) use ($connection) {
     $request = new \TestePratico\Request();
     $request->setGet(['id' => $id]);
     $request->setPost($dados);
-    $response = UsuariosController::put($request,$connection);
+    $response = UsuariosController::put($request, $connection);
     $response->send();
 });
 
-$router->get("/usuarios/novo",function () use ($connection){
+$router->get("/usuarios/novo", function () use ($connection) {
     $response = UsuariosController::form(new \TestePratico\Request(), $connection);
     $response->send();
-});
-
-$router->get('/usuarios/{id}', function ($id) {
-    echo "Detalhes do usuário com ID: $id (GET)";
 });
 
 
 try {
     $router->executar();
-}catch (\Throwable $e){
+} catch (\Throwable $e) {
     \TestePratico\Response::response()->setStatus(500)->setBody($e->getMessage())->send();
 }

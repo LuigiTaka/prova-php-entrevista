@@ -23,13 +23,13 @@ class UsuariosController
     {
         $users = $connection->query("SELECT * FROM users");
         $errorMessage = $_SESSION['error'] ?? false;
-        $message = $_SESSION['message']??false;
+        $message = $_SESSION['message'] ?? false;
         unset($_SESSION['error']);
         unset($_SESSION['message']);
         $page = new Template("usuarios");
-        $page->set("users",$users);
-        $page->set("errorMessage",$errorMessage);
-        $page->set("message",$message);
+        $page->set("users", $users);
+        $page->set("errorMessage", $errorMessage);
+        $page->set("message", $message);
         $page = $page->render();
         return Response::response()->setStatus(200)->setBody($page);
     }
@@ -41,6 +41,12 @@ class UsuariosController
     {
         $nome = $request->post("name");
         $email = $request->post("email");
+        $id = $request->post("id", false);
+
+        if (!empty($id) && ctype_digit($id)) {
+            $request->setGet(['id' => $id]);
+            return self::put($request, $connection);
+        }
 
         try {
 
@@ -71,7 +77,15 @@ class UsuariosController
 
     public static function form(Request $request, Connection $connection): Response
     {
+        $model = new UsuariosModel($connection);
         $page = new Template("usuario_form");
+        if (!empty($request->get("id")) && ctype_digit($request->get("id"))) {
+            $usuario = $model->id($request->get("id"));
+            $page->set('name', $usuario['name']);
+            $page->set('email', $usuario['email']);
+            $page->set("id", $usuario['id']);
+        }
+
         return Response::response()->setStatus(200)->setBody($page->render());
 
     }
