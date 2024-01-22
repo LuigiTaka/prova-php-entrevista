@@ -1,3 +1,41 @@
+/* Estilos para o cabeçalho e menu */
+header {
+    background-color: rgba(0, 123, 255, 0.77);
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+}
+
+nav {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+}
+
+nav a:hover {
+    background-color: #555;
+}
+
+/* Alinhamento dos títulos com conteúdo */
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 20px;
+}
+
+/* Reset de margens para o conteúdo principal */
+main {
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+
 /* Reset de estilos padrão do navegador */
 body, h1, h2, h3, p, ul, ol, li, figure, figcaption, blockquote, dl, dd, dt {
     margin: 0;
