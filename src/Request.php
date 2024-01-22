@@ -54,4 +54,9 @@ class Request
     {
         $this->post = $dados;
     }
+
+    public function setGet($dados) : void
+    {
+        $this->get = $dados;
+    }
 }
