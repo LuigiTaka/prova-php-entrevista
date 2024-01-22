@@ -11,7 +11,7 @@ abstract class BaseModel
     protected string $table = "";
 
     public function __construct(
-        private Connection $connection
+        protected Connection $connection
     )
     {
 
