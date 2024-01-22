@@ -1,5 +1,7 @@
 <?php
 
+$this->css("/css/base.css");
+
 ?>
 
 <!doctype html>
@@ -20,24 +22,29 @@
 
     </style>
 
-    <?php foreach ($this->getJs() as $index => $path ) : ?>
+    <?php foreach ($this->getStyles() as $index => $path) : ?>
+        <link rel="stylesheet" href="<?= $path ?>">
+    <?php endforeach; ?>
+
+
+    <?php foreach ($this->getJs() as $index => $path) : ?>
         <script src="<?= $path ?>"></script>
     <?php endforeach; ?>
 
 </head>
 <body>
-    <header>
+<header>
 
-        <ul>
-            <li><a href="/">Início</a>  </li>
-            <li><a href="/usuarios">Lista de usuários</a>  </li>
-        </ul>
-    </header>
+    <ul>
+        <li><a href="/">Início</a></li>
+        <li><a href="/usuarios">Lista de usuários</a></li>
+    </ul>
+</header>
 
-    <main>
+<main>
 
-        <?= $conteudo??"" ?>
+    <?= $conteudo ?? "" ?>
 
-    </main>
+</main>
 </body>
 </html>
