@@ -7,6 +7,7 @@ use TestePratico\Exceptions\RequestException;
 use TestePratico\Models\UsuariosModel;
 use TestePratico\Request;
 use TestePratico\Response;
+use TestePratico\Template;
 
 class UsuariosController
 {
@@ -16,46 +17,20 @@ class UsuariosController
      * @param Request $request
      * @param Connection $connection
      * @return Response
+     * @throws \Exception
      */
     public static function get(Request $request, Connection $connection): Response
     {
         $users = $connection->query("SELECT * FROM users");
         $errorMessage = $_SESSION['error'] ?? false;
-        $message = $_SESSION['message'];
+        $message = $_SESSION['message']??false;
         unset($_SESSION['error']);
         unset($_SESSION['message']);
-        ob_start();
-        echo "
-
-                   <p>$errorMessage</p>
-                   <p>$message </p>
-<table border='1'>
-<a href='/usuarios/novo'>Novo usuário</a>
-    <tr>
-        <th>ID</th>    
-        <th>Nome</th>    
-        <th>Email</th>
-        <th>Ação</th>    
-    </tr>
-";
-
-        foreach ($users as $user) {
-
-            echo sprintf("<tr>
-                      <td>%s</td>
-                      <td>%s</td>
-                      <td>%s</td>
-                      <td>
-                           <a href='#'>Editar</a>
-                           <a href='#'>Excluir</a>
-                      </td>
-                   </tr>",
-                $user->id, $user->name, $user->email);
-
-        }
-
-        echo "</table>";
-        $page = ob_get_clean();
+        $page = new Template("usuarios");
+        $page->set("users",$users);
+        $page->set("errorMessage",$errorMessage);
+        $page->set("message",$message);
+        $page = $page->render();
         return Response::response()->setStatus(200)->setBody($page);
     }
 
@@ -137,7 +112,7 @@ HTML;
      * @throws \HttpException
      * @throws \Throwable
      */
-    public static function put(Request $request, Connection $connection)
+    public static function put(Request $request, Connection $connection): Response
     {
 
         $id = $request->get("id", false);
