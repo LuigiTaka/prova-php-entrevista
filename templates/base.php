@@ -20,6 +20,10 @@
 
     </style>
 
+    <?php foreach ($this->getJs() as $index => $path ) : ?>
+        <script src="<?= $path ?>"></script>
+    <?php endforeach; ?>
+
 </head>
 <body>
     <header>
