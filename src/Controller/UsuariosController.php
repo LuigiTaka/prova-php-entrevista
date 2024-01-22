@@ -4,6 +4,7 @@ namespace TestePratico\Controller;
 
 use TestePratico\Connection;
 use TestePratico\Exceptions\RequestException;
+use TestePratico\Models\CoresModel;
 use TestePratico\Models\UsuariosModel;
 use TestePratico\Request;
 use TestePratico\Response;
@@ -86,6 +87,13 @@ class UsuariosController
             $page->set("id", $usuario['id']);
         }
 
+        $coresModel = new CoresModel($connection);
+        $cores = $coresModel->all();
+        $coresById = [];
+        foreach ($cores as $index => $data) {
+            $coresById[$data['id']] = $data['name'];
+        }
+        $page->set("colors", $coresById);
         return Response::response()->setStatus(200)->setBody($page->render());
 
     }

@@ -12,7 +12,15 @@ ob_start();
         <label for="email">E-mail.</label>
         <input type="email" name="email" id="email" value="<?= $email ?? '' ?>">
 
-        <input type="text" name="id" hidden value="<?= $id??false ?>">
+        <label for="cor">Cor</label>
+        <input type="text" name="cor" id="cor" list="colors">
+        <datalist id="colors">
+            <?php foreach ($colors as $id => $color): ?>
+                <option> <?= $color ?> </option>
+            <?php endforeach; ?>
+        </datalist>
+
+        <input type="text" name="id" hidden value="<?= $id ?? false ?>">
 
         <input type="submit" value="Salvar">
     </form>
