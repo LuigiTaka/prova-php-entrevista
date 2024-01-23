@@ -29,19 +29,21 @@ ob_start();
         <tbody>
         <?php foreach ($users as $user) : ?>
             <tr>
-                <td><?= $user->id ?></td>
-                <td><?= $user->name ?></td>
-                <td><?= $user->email ?></td>
+                <td><?= $user['id'] ?></td>
+                <td><?= $user['name'] ?></td>
+                <td><?= $user['email'] ?></td>
                 <td>
-                    <?php foreach ($user->cores ?? [] as $cor) : ?>
-                        <div class="cores" style="background-color: <?= $cor ?>"></div>
-                    <?php endforeach; ?>
-                    <button onclick="openModal(<?= $user->id ?>)">Adicionar Cor</button>
+                    <div>
+                        <?php foreach ($userColors[$user['id']] ?? [] as $idColor => $color) : ?>
+                            <span class="esferico" style="background-color: <?= strtolower($color['name']) ?>"></span>
+                        <?php endforeach; ?>
+                    </div>
+                    <button onclick="openModal(<?= $user['id'] ?>)">Adicionar Cor</button>
 
                 </td>
                 <td>
-                    <a href='/usuarios/<?= $user->id ?>'>Editar</a>
-                    <a href="#" class="rm" data-id="<?= $user->id ?>">Excluir</a>
+                    <a href='/usuarios/<?= $user['id'] ?>'>Editar</a>
+                    <a href="#" class="rm" data-id="<?= $user['id'] ?>">Excluir</a>
                 </td>
             </tr>
         <?php endforeach; ?>

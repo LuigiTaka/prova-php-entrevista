@@ -23,14 +23,23 @@ class UsuariosController
     public static function get(Request $request, Connection $connection): Response
     {
         $users = $connection->query("SELECT * FROM users");
+        $users = $users->fetchAll(\PDO::FETCH_ASSOC);
         $errorMessage = $_SESSION['error'] ?? false;
         $message = $_SESSION['message'] ?? false;
         unset($_SESSION['error']);
         unset($_SESSION['message']);
+
+        $colorsModel = new CoresModel($connection);
+        $userColors = [];
+        foreach ($users as $row) {
+            $userColors[$row['id']] = $colorsModel->getCoresByUserId($row['id']);
+        }
+
         $page = new Template("usuarios");
         $page->set("users", $users);
         $page->set("errorMessage", $errorMessage);
         $page->set("message", $message);
+        $page->set('userColors', $userColors);
         $page = $page->render();
         return Response::response()->setStatus(200)->setBody($page);
     }

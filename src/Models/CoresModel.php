@@ -15,6 +15,6 @@ SQL;
         $conn = $this->connection->getConnection();
         $stmt = $conn->prepare($query);
         $stmt->execute([$id]);
-        return $stmt->fetchAll();
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 }
