@@ -56,9 +56,9 @@ ob_start();
 
             <label for="cor">Cores</label>
             <?php foreach ($colors as $idColor => $color): ?>
-                <label class="d-inline-block" for="<?= $color['name'] ?>">
+                <label class="d-inline-block" for="color<?= $idColor ?>">
                     <input type="checkbox" name="cores[]" value="<?= $idColor ?>"
-                           id="<?= $idColor ?>">
+                           id="color-<?= $idColor ?>">
                     <?= $color['name'] ?>
                     <span class="esferico" style="background-color: <?= strtolower($color['name']) ?>"></span>
                 </label>
@@ -72,7 +72,6 @@ ob_start();
 
 <?php
 $template->js("/js/usuarios.js");
-
 
 $template->set("conteudo", ob_get_clean());
 echo $template->render();
