@@ -186,19 +186,18 @@ class UsuariosController
 
         $updateData = ["name" => $nome, "email" => $email];
         $updateData = array_filter($updateData);
-        if (empty($updateData)) {
-            throw new RequestException("Nenhum dado informado para atualizar o registro!", 422);
-        }
 
         //Deleta todas as cores do usuário e insere as novas vindas da requisição.
         $stmt = $connection->getConnection()->query("DELETE FROM user_colors WHERE user_id = ?");
         $stmt->execute([$id]);
+        if (!empty($colors)) {
+            self::insertColors($id, $colors, $connection);
+        }
 
-        self::insertColors($id, $colors, $connection);
-
-        $model = new UsuariosModel($connection);
-        $model->update($id, $updateData);
-
+        if (!empty($updateData)) {
+            $model = new UsuariosModel($connection);
+            $model->update($id, $updateData);
+        }
         $_SESSION['message'] = "Usuário atualizado com sucesso.";
         return Response::response()->setStatus(200)->setHeader("Location", "/usuarios");
     }

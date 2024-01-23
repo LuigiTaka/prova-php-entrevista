@@ -56,7 +56,7 @@ ob_start();
 
             <label for="cor">Cores</label>
             <?php foreach ($colors as $idColor => $color): ?>
-                <label class="d-inline-block" for="color<?= $idColor ?>">
+                <label class="d-inline-block" for="color-<?= $idColor ?>">
                     <input type="checkbox" name="cores[]" value="<?= $idColor ?>"
                            id="color-<?= $idColor ?>">
                     <?= $color['name'] ?>
@@ -69,6 +69,9 @@ ob_start();
         </div>
     </div>
 
+    <script>
+        window.USER_COLORS = <?= json_encode($userColors ?? [], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES); ?>;
+    </script>
 
 <?php
 $template->js("/js/usuarios.js");

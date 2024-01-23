@@ -1,3 +1,11 @@
+const COLORS_STATE = {
+
+    current_user_id: null,
+    colors: []
+}
+
+let $colorCheckbox = document.getElementsByTagName("cores");
+
 function getBaseUrl() {
     const protocol = window.location.protocol;
     const host = window.location.host;
@@ -28,6 +36,19 @@ function removeRecordEvent(e) {
 }
 
 function openModal(userId) {
+    COLORS_STATE.current_user_id = userId;
+    COLORS_STATE.colors = window.USER_COLORS[userId];
+
+
+    Array.from($colorCheckbox).forEach((x) => x.checked = false);
+    Array.from($colorCheckbox).forEach((el) => {
+
+        let id = el.getAttribute('value');
+        let hasColor = COLORS_STATE.colors.find((c) => c.id == id);
+        if (hasColor) {
+            el.checked = true;
+        }
+    })
     document.getElementById('modal').style.display = 'flex';
 }
 
@@ -36,12 +57,28 @@ function closeModal() {
 }
 
 function adicionarCor() {
-    // Lógica para adicionar a nova cor ao usuário
-    // Pode ser feita via AJAX ou manipulando diretamente a DOM
+    let body = {"cores": Array.from($colorCheckbox).filter(x => x.checked).map(x => x.getAttribute('value'))};
+    let url = getBaseUrl() + "/usuarios/" + COLORS_STATE.current_user_id;
+
+    fetch(url, {
+        method: "PUT",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+    }).then(response => {
+        if (response.redirected) {
+            window.location.replace(response.url);
+        }
+    }).catch( (e) => {
+        console.error("Erro na requisição", e.message)
+    } )
     closeModal();
 }
 
-window.addEventListener('DOMContentLoaded', function () {
+window.addEventListener('DOMContentLoaded', () => {
+    $colorCheckbox = document.getElementsByName("cores[]");
+
     let $rmList = document.getElementsByClassName("rm");
     Array.from($rmList).forEach((el) => {
         el.addEventListener("click", (e) => {
