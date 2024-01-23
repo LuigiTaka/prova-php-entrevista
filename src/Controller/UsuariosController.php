@@ -9,6 +9,7 @@ use TestePratico\Models\UsuariosModel;
 use TestePratico\Request;
 use TestePratico\Response;
 use TestePratico\Template;
+use TestePratico\Utils;
 
 class UsuariosController
 {
@@ -40,6 +41,7 @@ class UsuariosController
         $page->set("errorMessage", $errorMessage);
         $page->set("message", $message);
         $page->set('userColors', $userColors);
+        $page->set("colors", Utils::indexBy("id", $colorsModel->all()));
         $page = $page->render();
         return Response::response()->setStatus(200)->setBody($page);
     }

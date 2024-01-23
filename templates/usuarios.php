@@ -53,8 +53,17 @@ ob_start();
     <!-- Modal para adicionar cor -->
     <div id="modal" class="modal">
         <div class="modal-content">
-            <label for="novaCor">Nova Cor:</label>
-            <input type="text" id="novaCor" placeholder="Digite uma cor...">
+
+            <label for="cor">Cores</label>
+            <?php foreach ($colors as $idColor => $color): ?>
+                <label class="d-inline-block" for="<?= $color['name'] ?>">
+                    <input type="checkbox" name="cores[]" value="<?= $idColor ?>"
+                           id="<?= $idColor ?>">
+                    <?= $color['name'] ?>
+                    <span class="esferico" style="background-color: <?= strtolower($color['name']) ?>"></span>
+                </label>
+            <?php endforeach; ?>
+
             <button onclick="adicionarCor()">Adicionar</button>
             <button onclick="closeModal()">Cancelar</button>
         </div>
